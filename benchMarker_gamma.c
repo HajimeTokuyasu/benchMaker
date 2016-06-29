@@ -1,10 +1,9 @@
 //**************************The_Source_was_written_by_Tokuyasu_Hajime**************************
-//**************************__________Source_Built:20160627__________**************************
+//**************************__________Source_Built:20160628__________**************************
 
 #include <sys/types.h>  /* Type definitions used by many programs */
 #include <stdio.h>      /* Standard I/O functions */
-#include <stdlib.h>     /* Prototypes of commonly used library functions,
- plus EXIT_SUCCESS and EXIT_FAILURE constants */
+#include <stdlib.h>     /* Prototypes of commonly used library functions plus EXIT_SUCCESS and EXIT_FAILURE constants */
 #include <unistd.h>     /* Prototypes for many system calls */
 #include <errno.h>      /* Declares errno and defines error constants */
 #include <string.h>     /* Commonly used string-handling functions */
@@ -52,8 +51,7 @@ static struct timer displayProc (void){
 }
 int main( int argv,char* argc[]) {
 
-   int numCalls, j;
-   struct timer timer_result_arpha,timer_result_beta;
+   struct timer timer_result_start,timer_result_end,timer_voidloop_start,timer_voidloop_end;
 
    if (argc[1] == NULL){
       puts("\n[ERROR]::\n[USAGE]_arg1_is_numeric\n[USAGE]_arg2_is_command\n");
@@ -63,21 +61,22 @@ int main( int argv,char* argc[]) {
    printf( "CLOCKS_PER_SEC=%ld sysconf(_SC_CLK_TCK) =%ld\n\n",
          (long) CLOCKS_PER_SEC, sysconf(_SC_CLK_TCK));
 
-   timer_result_arpha = displayProc();
+   timer_result_start = displayProc();
    numCalls = atoi(argc[1]);
 
   int i;
-  for (i = 0; i< atoi(argc[1]); i++){
+  int loop = atoi(argc[1]);
+  for (i = 0; i< loop; i++){//
    printf("[**]Loop_%d__\n",i);
    system(argc[2]);
   }
 
-   timer_result_beta =  displayProc();
+   timer_result_end =  displayProc();
 
    
 
-   printf("Then::USR_CPUproc_Interval_time_is::%f\n",timer_result_beta.result_usrCPU - timer_result_arpha.result_usrCPU);
-   printf("Then::SYS_CPUproc_Interval_time_is::%f\n",timer_result_beta.result_sysCPU - timer_result_arpha.result_sysCPU);
+   printf("Then::USR_CPUproc_Interval_time_is::%f\n",timer_result_end.result_usrCPU - timer_result_start.result_usrCPU);
+   printf("Then::SYS_CPUproc_Interval_time_is::%f\n",timer_result_end.result_sysCPU - timer_result_start.result_sysCPU);
 
    exit(EXIT_SUCCESS);
    return 0;
