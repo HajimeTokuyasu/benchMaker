@@ -22,7 +22,7 @@ static struct timer displayProc(void);
 static struct timer displayProc (void){
    struct tms t;
    clock_t clockTime;
-   static long clockTicks = 0;
+   static double clockTicks = 0;
 
    struct timer timer_return;
 
@@ -36,7 +36,7 @@ static struct timer displayProc (void){
    if (clockTime == -1)
       puts("clock");
    printf("    clock() returns: %ld clock_per_sec (%.2f secs))\n",
-   (long) clockTime, (double) clockTime/CLOCKS_PER_SEC);
+   (long) clockTime,  clockTime/CLOCKS_PER_SEC);
    
    if (times(&t) == -1)
       puts("times");
@@ -62,7 +62,6 @@ int main( int argv,char* argc[]) {
          (long) CLOCKS_PER_SEC, sysconf(_SC_CLK_TCK));
 
    timer_result_start = displayProc();
-   numCalls = atoi(argc[1]);
 
   int i;
   int loop = atoi(argc[1]);
